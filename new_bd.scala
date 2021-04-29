@@ -14,3 +14,8 @@ val clusters = KMeans.train(parsedData, numClusters, numIterations)
 // Evaluate clustering by computing Within Set Sum of Squared Errors
 val WSSSE = clusters.computeCost(parsedData)
 println("Within Set Sum of Squared Errors = " + WSSSE)
+
+val result = clusters.predict(parsedData)
+result.take(10).foreach(println)
+
+
