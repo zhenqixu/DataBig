@@ -5,6 +5,22 @@ R = np.random.rand(N,D)
 R = R*10
 R = R-5
 
+
+
+import json
+
+data = {}
+data['people'] = []
+for i in range(N):
+    data['people'].append({
+        'name': 'Scott',
+        'website': 'stackabuse.com',
+        'from': 'Nebraska'
+    })
+    
+with open('data.txt', 'w') as outfile:
+    json.dump(data, outfile)
+
 res = []
 for i in range(N):
     R[i][3] = 0 # set the empty dimesion
