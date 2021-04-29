@@ -17,32 +17,33 @@ label3_num = N - label1_num - label2_num
 #data['people'] = []
 #with open('data.json', 'w') as outfile:
 data = []
+for i in range(100):
+    data.append({
+        'account1': random.randrange(10, 500),
+        'account2': random.randrange(10, 500),
+        'account3': random.randrange(10, 500),
+        'account4':  0,
+        'label' : 0
+    })
 
-fig = plt.figure()
-ax = plt.axes(projection='3d')
-
-
-def generate_data(label, size, min_, max_, color):
-    global data
-    global ax
-    for i in range(label1_num):
-        v1 = random.randrange(min_, max_)*3
-        v2 = random.randrange(min_, max_)*0.4
-        v3 = random.randrange(min_, max_)-100
-
-        data.append({
-            'account1': v1,
-            'account2': v2,
-            'account3': v3,
-            'account4':  0
-        })
-        ax.scatter(v1, v2, v3, c=color, s = 1)
-        
-        
-generate_data(1, label1_num, 101, 605, 'red')
-generate_data(2, label2_num, 400, 1205, 'green')
-generate_data(3, label3_num, 800, 2000, 'blue')
-
+    
+for i in range(label2_num):
+    data.append({
+        'account1': random.randrange(500, 1000),
+        'account2': random.randrange(500, 1000),
+        'account3': random.randrange(500, 1000),
+        'account4': 0,
+        'label' : 1
+    })
+    
+for i in range(label3_num):
+    data.append({
+        'account1': random.randrange(1000, 10000)-5,
+        'account2': random.randrange(1000, 10000)-5,
+        'account3': random.randrange(1000, 10000)-5,
+        'account4':  0,
+        'label' : 2
+    })
 
 with open('data.json', 'w') as outfile:
     json.dump(data, outfile)
@@ -52,6 +53,6 @@ print("1:" + str(label1_num))
 print("2:" + str(label2_num))
 print("3:" + str(label3_num))
 
-
-
-plt.show()
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+#plt.show()
