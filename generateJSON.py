@@ -3,7 +3,7 @@ import random
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 
-N=100
+N=1000
 D=3 + 1 # empty dimension
 
 
@@ -43,7 +43,8 @@ def generate_data(size, min_, max_):
 def change_entry(v):
     vocab = "abcdefghijklmnopq"
     index = int(v)%len(vocab)
-    return vocab[index]
+    print(str(vocab[index])) 
+    return str(vocab[index])
     
 # type of noises:
 # - label is fliiped
@@ -55,17 +56,21 @@ def add_noise(data):
         rand = random.uniform(0, 1)
         interval = 0.02
         start_percent = 0.02
-        if (rand < start_percent):
+        if (rand < start_percent): # flip labels
             d['label'] = 1 - d['label']
             counter += 1
         elif (start_percent <= rand <= start_percent + interval):
-            d['account1'] = change_entry(d['account1']) if rand%2 == 0 else float('inf')
+            d['account1'] = change_entry(d['account1'])  
             counter += 1
         elif (start_percent + interval <= rand < start_percent+interval*2):
-            d['account2'] = change_entry(d['account2']) if rand%2 == 0 else None
+            d['account2'] = change_entry(d['account2'])  
             counter += 1
         elif (start_percent + interval*2 <= rand <= start_percent + interval*3):
-            d['account3'] = change_entry(d['account3']) if rand%2 == 0 else float('inf')
+            d['account3'] = change_entry(d['account3'])  
+            counter += 1
+        elif (start_percent + interval*3 <= rand <= start_percent + interval*4):
+            d['account3'] = None
+            d['account2'] = float('inf')
             counter += 1
         distorted_data.append(d)
     print("Number of noises: " + str(counter))
@@ -77,8 +82,8 @@ generate_data(N, 0, 10)
 #plt.show()
 
 with open('data.json', 'w') as outfile:
-    json.dump(data, outfile)
-    #json.dump(add_noise(data), outfile)
+    #json.dump(data, outfile)
+    json.dump(add_noise(data), outfile)
 
    
 
