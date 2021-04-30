@@ -7,7 +7,6 @@ N=100
 D=3 + 1 # empty dimension
 
 
-
 import json
 label1_num = random.randrange(100, 700)
 label2_num = N - label1_num
@@ -78,8 +77,8 @@ generate_data(N, 0, 10)
 #plt.show()
 
 with open('data.json', 'w') as outfile:
-    #json.dump(data, outfile)
-    json.dump(add_noise(data), outfile)
+    json.dump(data, outfile)
+    #json.dump(add_noise(data), outfile)
 
    
 
