@@ -9,50 +9,48 @@ D=3 + 1 # empty dimension
 
 
 import json
-label1_num = random.randrange(100, 500)
-label2_num = random.randrange(100, 500)
-label3_num = N - label1_num - label2_num
+label1_num = random.randrange(100, 700)
+label2_num = N - label1_num
 
 
-#data['people'] = []
-#with open('data.json', 'w') as outfile:
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+
 data = []
-for i in range(100):
-    data.append({
-        'account1': random.randrange(10, 500),
-        'account2': random.randrange(10, 500),
-        'account3': random.randrange(10, 500),
-        'account4':  0,
-        'label' : 0
-    })
 
-    
-for i in range(label2_num):
-    data.append({
-        'account1': random.randrange(500, 1000),
-        'account2': random.randrange(500, 1000),
-        'account3': random.randrange(500, 1000),
-        'account4': 0,
-        'label' : 1
-    })
-    
-for i in range(label3_num):
-    data.append({
-        'account1': random.randrange(1000, 10000)-5,
-        'account2': random.randrange(1000, 10000)-5,
-        'account3': random.randrange(1000, 10000)-5,
-        'account4':  0,
-        'label' : 2
-    })
+def generate_data(size, min_, max_, color):
+    global data
+    global ax
+    for i in range(size):
+        v1 = random.randrange(min_, max_)*10
+        v2 = random.randrange(min_, max_)*10
+        v3 = random.randrange(min_, max_)*10
+        if v1*v1 > (v2*v2 + v3*v3)/5-2:
+            data.append({
+                'label': 1,
+                'account1': v1,
+                'account2': v2,
+                'account3': v3,
+                'account4':  0
+            })
+            ax.scatter(v1, v2, v3, c='red', s = 1)
+        else:
+            data.append({
+                'label': 0,
+                'account1': v1,
+                'account2': v2,
+                'account3': v3,
+                'account4':  0
+            })
+            ax.scatter(v1, v2, v3, c='blue', s = 1)
+
+generate_data(N, 0, 10, 'red')
+
 
 with open('data.json', 'w') as outfile:
     json.dump(data, outfile)
     
 
-print("1:" + str(label1_num))
-print("2:" + str(label2_num))
-print("3:" + str(label3_num))
 
-fig = plt.figure()
-ax = plt.axes(projection='3d')
-#plt.show()
+
+plt.show()
