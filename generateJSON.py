@@ -20,14 +20,22 @@ data = []
 def generate_data(size, min_, max_):
     global data
     global ax
+
+    noise = True
     for i in range(size):
-        v1 = random.uniform(min_, max_)*10
-        v2 = random.uniform(min_*3, max_*3)*10
-        v3 = random.uniform(min_*10, max_*10)*10
+        v1 = random.uniform(min_, max_)*1
+        v2 = random.uniform(min_, max_)*1
+        v3 = random.uniform(min_, max_)*1
+        v4 = 0
         label = 0
         color = 'red'
-        
-        if v1*v1 > (v2*v2 + v3*v3)/5-2:
+        if (noise):
+            v1 += random.uniform(-5, 5)
+            v2 += random.uniform(-5, 5)
+            v3 += random.uniform(-5, 5)
+            v4 += random.uniform(-5, 5)
+
+        if v1 > (v2*v2 + v3*v3)/5-10:
             label = 1
             color = 'blue'
             
@@ -36,7 +44,7 @@ def generate_data(size, min_, max_):
             'account1': v1,
             'account2': v2,
             'account3': v3,
-            'account4':  0
+            'account4': v4
         })
         ax.scatter(v1, v2, v3, c=color, s = 1)
 
@@ -55,11 +63,8 @@ def add_noise(data):
     for d in data:
         rand = random.uniform(0, 1)
         interval = 0.02
-        start_percent = 0.05
-        d['account1'] + random.uniform(-1, 1)
-        d['account2'] + random.uniform(-1, 1)
-        d['account3'] + random.uniform(-1, 1)
-        d['account4'] + random.uniform(-1, 1)
+        start_percent = 0.1
+        
 
         if (rand < start_percent): # flip labels
             d['label'] = 1 - d['label']
@@ -81,10 +86,9 @@ def add_noise(data):
     print("Number of noises: " + str(counter))
     return distorted_data
     
-generate_data(N, 1, 10)
-
+generate_data(N, 1, 7)
  
-#plt.show()
+plt.show()
 
 with open('data.json', 'w') as outfile:
     #json.dump(data, outfile)
