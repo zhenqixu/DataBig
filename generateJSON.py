@@ -22,8 +22,8 @@ def generate_data(size, min_, max_):
     global ax
     for i in range(size):
         v1 = random.uniform(min_, max_)*10
-        v2 = random.uniform(min_, max_)*10
-        v3 = random.uniform(min_, max_)*10
+        v2 = random.uniform(min_*3, max_*3)*10
+        v3 = random.uniform(min_*10, max_*10)*10
         label = 0
         color = 'red'
         
@@ -81,7 +81,7 @@ def add_noise(data):
     print("Number of noises: " + str(counter))
     return distorted_data
     
-generate_data(N, 0, 10)
+generate_data(N, 1, 10)
 
  
 #plt.show()
