@@ -1,4 +1,4 @@
-import numpy as np
+#import numpy as np
 import random
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
@@ -43,7 +43,7 @@ def generate_data(size, min_, max_):
 def change_entry(v):
     vocab = "abcdefghijklmnopq"
     index = int(v)%len(vocab)
-    print(str(vocab[index])) 
+    #print(str(vocab[index])) 
     return str(vocab[index])
     
 # type of noises:
@@ -55,7 +55,12 @@ def add_noise(data):
     for d in data:
         rand = random.uniform(0, 1)
         interval = 0.02
-        start_percent = 0.02
+        start_percent = 0.05
+        d['account1'] + random.uniform(-1, 1)
+        d['account2'] + random.uniform(-1, 1)
+        d['account3'] + random.uniform(-1, 1)
+        d['account4'] + random.uniform(-1, 1)
+
         if (rand < start_percent): # flip labels
             d['label'] = 1 - d['label']
             counter += 1
