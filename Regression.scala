@@ -1,9 +1,10 @@
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
-import org.apache.spark.mllib.linalg.Vectors
+
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.{SQLContext}
 
+import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.util.MLUtils;
@@ -11,19 +12,40 @@ import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.evaluation.MulticlassMetrics;
 import org.apache.spark.mllib.classification.{LogisticRegressionModel, LogisticRegressionWithLBFGS}
+import org.apache.spark.mllib.feature.PCA
+import org.apache.spark.mllib.feature.Normalizer
+import org.apache.spark.mllib.util.MLUtils
 
+import org.apache.spark.rdd.RDD
 
+//Create Dataframe
 val sqlCtx = new SQLContext(sc)
 import sqlCtx._
-val data_1 = sqlCtx.jsonFile("DataBig/data.json")
-data_1.show
-val size = data_1.columns.size
-val RDD = data_1.rdd.map(_.mkString(" ")).map(line=>line.split(" ").filter(str=>str.exists(_.isLetter)^true).map(_.toDouble)).filter(s=>s.length==size)
-RDD.map(_.mkString(" ")).collect().foreach(println)
-val data = RDD.map(s=>LabeledPoint(s(4), Vectors.dense(s(0),s(1),s(2),s(3))))
+val dataFrame = sqlCtx.jsonFile("DataBig/data.json")
+dataFrame.show
 
-// Split data into training (60%) and test (40%).
-val splits = data.randomSplit(Array(0.6, 0.4), seed = 11L)
+//Convert Dataframe to RDD
+val size = dataFrame.columns.size
+val dataRDD = dataFrame.rdd.map(_.mkString(" ")).map(line=>line.split(" ").filter(str=>str.exists(_.isLetter)^true).map(_.toDouble)).filter(s=>s.length==size)
+//RDD.map(_.mkString(" ")).collect().foreach(println)
+
+//Create label for dataset
+val dataLabeledPoint = dataRDD.map(s=>LabeledPoint(s(4), Vectors.dense(s(0),s(1),s(2),s(3))))
+dataLabeledPoint.take(3).foreach(println)
+
+//1st. Normalize the Dataset
+val normalizer = new Normalizer()
+val dataNormalized = dataLabeledPoint.map(x => LabeledPoint(x.label, normalizer.transform(x.features)))
+dataNormalized.take(3).foreach(println)
+
+
+//Use PCA to process Dataset
+val pca = new PCA(2).fit(dataNormalized.map(_.features))
+val projected = dataNormalized.map(p => p.copy(features = pca.transform(p.features)))
+projected.take(5).foreach(println)
+
+// Split data into training (80%) and test (20%).
+val splits = projected.randomSplit(Array(0.8, 0.2), seed = 11L)
 val training = splits(0).cache()
 val test = splits(1)
 
