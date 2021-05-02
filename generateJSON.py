@@ -82,6 +82,16 @@ def add_noise(data):
             d['account3'] = None
             d['account2'] = float('inf')
             counter += 1
+
+
+        if (rand < 0.3):
+            distorted_data.append(d)
+        elif (rand < 0.5):
+            d['account1'] = str(d['account1'])
+            d['account2'] = str(d['account2'])
+            d['account3'] = str(d['account3'])
+            d['account4'] = str(d['account4'])
+
         distorted_data.append(d)
     print("Number of noises: " + str(counter))
     return distorted_data
