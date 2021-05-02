@@ -2,23 +2,23 @@
 import random
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
+import sys
+import json
 
 N=1000
 D=3 + 1 # empty dimension
 
 
-import json
 label1_num = random.randrange(100, 700)
 label2_num = N - label1_num
 
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-data = []
 
 
 def generate_data(size, min_, max_):
-    global data
+    data = []
     global ax
 
     noise = True
@@ -31,7 +31,7 @@ def generate_data(size, min_, max_):
         color = 'red'
 
 
-        if v1 > (v2*v2 + v3*v3)/5-10:
+        if v1 > (v2*v2 + v3*v3)/5-6:
             label = 1
             color = 'blue'
 
@@ -50,6 +50,7 @@ def generate_data(size, min_, max_):
             'account4': v4
         })
         ax.scatter(v1, v2, v3, c=color, s = 1)
+    return data
 
 def change_entry(v):
     vocab = "abcdefghijklmnopq"
@@ -60,7 +61,7 @@ def change_entry(v):
 # type of noises:
 # - label is flipped
 # - invalid entries
-# - entries is missing
+# - entries are missing
 def add_noise(data):
     distorted_data = []
     counter = 0
@@ -95,15 +96,26 @@ def add_noise(data):
             d['account2'] = str(d['account2'])
             d['account3'] = str(d['account3'])
             d['account4'] = str(d['account4'])
+        elif (rand < 0.6):
+            d['account1'] = None
+            d['account2'] = None
+        elif (rand < 0.7):
+            d['account3'] = None
+            d['account4'] = None
+
 
         distorted_data.append(d)
+
+        
     print("Number of noises: " + str(counter))
     return distorted_data
 
-generate_data(N, 1, 7)
+
 
 plt.show()
 
-with open('dataTable1.json', 'w') as outfile:
-    #json.dump(data, outfile)
-    json.dump(add_noise(data), outfile)
+for i in range(3):
+    file_name = "data" + str(i) + ".json"
+    with open(file_name, 'w') as outfile:
+        #json.dump(data, outfile)
+        json.dump(add_noise(generate_data(N, 1, 7)), outfile)
