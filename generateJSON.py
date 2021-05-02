@@ -104,6 +104,6 @@ generate_data(N, 1, 7)
 
 plt.show()
 
-with open('data.json', 'w') as outfile:
+with open('dataTable1.json', 'w') as outfile:
     #json.dump(data, outfile)
     json.dump(add_noise(data), outfile)
