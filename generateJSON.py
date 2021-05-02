@@ -29,16 +29,19 @@ def generate_data(size, min_, max_):
         v4 = 0
         label = 0
         color = 'red'
-        if (noise):
-            v1 += random.uniform(-5, 5)
-            v2 += random.uniform(-5, 5)
-            v3 += random.uniform(-5, 5)
-            v4 += random.uniform(-5, 5)
+
 
         if v1 > (v2*v2 + v3*v3)/5-10:
             label = 1
             color = 'blue'
-            
+
+        # add noises
+        if (noise):
+            v1 += random.uniform(-1, 1)
+            v2 += random.uniform(-1, 1)
+            v3 += random.uniform(-1, 1)
+            v4 += random.uniform(-1, 1)
+
         data.append({
             'label': label,
             'account1': v1,
@@ -51,11 +54,12 @@ def generate_data(size, min_, max_):
 def change_entry(v):
     vocab = "abcdefghijklmnopq"
     index = int(v)%len(vocab)
-    #print(str(vocab[index])) 
+    #print(str(vocab[index]))
     return str(vocab[index])
-    
+
 # type of noises:
-# - label is fliiped
+# - label is flipped
+# - invalid entries
 # - entries is missing
 def add_noise(data):
     distorted_data = []
@@ -64,21 +68,21 @@ def add_noise(data):
         rand = random.uniform(0, 1)
         interval = 0.02
         start_percent = 0.1
-        
+
 
         if (rand < start_percent): # flip labels
             d['label'] = 1 - d['label']
             counter += 1
-        elif (start_percent <= rand <= start_percent + interval):
-            d['account1'] = change_entry(d['account1'])  
+        elif (start_percent <= rand <= start_percent + interval): # add invalid entries - vocab
+            d['account1'] = change_entry(d['account1'])
             counter += 1
         elif (start_percent + interval <= rand < start_percent+interval*2):
-            d['account2'] = change_entry(d['account2'])  
+            d['account2'] = change_entry(d['account2'])
             counter += 1
         elif (start_percent + interval*2 <= rand <= start_percent + interval*3):
-            d['account3'] = change_entry(d['account3'])  
+            d['account3'] = change_entry(d['account3'])
             counter += 1
-        elif (start_percent + interval*3 <= rand <= start_percent + interval*4):
+        elif (start_percent + interval*3 <= rand <= start_percent + interval*4): # add Null entries
             d['account3'] = None
             d['account2'] = float('inf')
             counter += 1
@@ -95,14 +99,11 @@ def add_noise(data):
         distorted_data.append(d)
     print("Number of noises: " + str(counter))
     return distorted_data
-    
+
 generate_data(N, 1, 7)
- 
+
 plt.show()
 
 with open('data.json', 'w') as outfile:
     #json.dump(data, outfile)
     json.dump(add_noise(data), outfile)
-
-   
-

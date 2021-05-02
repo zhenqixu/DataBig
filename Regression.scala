@@ -26,7 +26,7 @@ val dataFrame = sqlCtx.jsonFile("DataBig/data.json")
 //val dataFrame = sqlCtx.jsonFile("data.json")
 //dataFrame.show
 
-//Convert Dataframe to RDD, and flite invalid entry.
+//Convert Dataframe to RDD, and filter invalid entry.
 val size = dataFrame.columns.size
 val dataRDD = dataFrame.rdd.map(_.mkString(" ")).map(line=>line.split(" ").filter(str=>str.exists(_.isLetter)^true).map(_.toDouble)).filter(s=>s.length==size)
 //RDD.map(_.mkString(" ")).collect().foreach(println)
@@ -49,7 +49,7 @@ val pca = new PCA(3).fit(dataNormalized.map(_.features))
 val projected = dataNormalized.map(p => p.copy(features = pca.transform(p.features)))
 //projected.take(5).foreach(println)
 
-// Split data into training (80%) and test (20%).
+// Split data into training (60%) and test (40%).
 val splits = dataLabeledPoint.randomSplit(Array(0.6, 0.4), seed = 11L)
 val training = splits(0).cache()
 val test = splits(1)
