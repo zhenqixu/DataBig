@@ -26,21 +26,12 @@ val dataFrame0 = sqlCtx.jsonFile("DataBig/data0.json")
 val dataFrame1 = sqlCtx.jsonFile("DataBig/data1.json")
 val dataFrame2 = sqlCtx.jsonFile("DataBig/data2.json")
 
-var dataFrame = dataFrame0.union(dataFrame1).union(dataFrame2)
-dataFrame.count()
-//1. Remove the redundant data
-val distinctDataFrame = dataFrame.distinct()
-//distinctDataFrame.count()
-
-//2. Replace null values with AVG of that column
-val validDataFrame = distinctDataFrame.na.fill(distinctDataFrame.columns.zip(distinctDataFrame.select(distinctDataFrame.columns.map(mean(_)): _*).first.toSeq).toMap)
-validDataFrame.show(1000)
-//validDataFrame.count()
+val dataFrame = dataFrame0.union(dataFrame1).union(dataFrame2)
 
 //3. Convert Dataframe to RDD, and convert the entry to double type
-val size = validDataFrame.columns.size
+val size = dataFrame.columns.size
   //3.1 Convert all the entries to string type.
-val dataRDDString = validDataFrame.rdd.map(_.mkString(" "))
+val dataRDDString = dataFrame.rdd.map(_.mkString(" "))
   //3.2 Filte non-numeric entries and convert the rest to Double type.
 val dataRDDDouble = dataRDDString.map(line=>line.split(" ").filter(str=>str.exists(_.isLetter)^true).map(_.toDouble))
   //3.3 Filte rows with invalid size.
@@ -51,14 +42,8 @@ val datafiltered = dataRDDDouble.filter(s=>s.length==size)
 val dataLabeledPoint = datafiltered.map(s=>LabeledPoint(s(4), Vectors.dense(s(0),s(1),s(2),s(3))))
 dataLabeledPoint.take(3).foreach(println)
 
-//5. Normalize the Dataset
-val normalizer = new Normalizer()
-val dataNormalized = dataLabeledPoint.map(x => LabeledPoint(x.label, normalizer.transform(x.features))).cache()
-//dataNormalized.take(3).foreach(println)
-
-
 //7. Split data into training (80%) and test (20%).
-val splits = dataNormalized.randomSplit(Array(0.8, 0.2), seed = 11L)
+val splits = dataLabeledPoint.randomSplit(Array(0.8, 0.2), seed = 11L)
 val training = splits(0).cache()
 val test = splits(1)
 
