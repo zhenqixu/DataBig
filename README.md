@@ -2,7 +2,8 @@
 
 ## Installation and Running 
 ## Model 
-- 
+- LogisticRegressionWithLBFGS
+    - Is able to handle multiple labels but we only have two right now.
 ## Noises
 - Flip the labels
     - The label of 1 is changed to label of 0.
@@ -22,5 +23,17 @@
         v3 += random.uniform(-0.05, 0.05)
         v4 += random.uniform(0.1, 0.12)
 ```
+## Data Process
+- Import data files as JSON format.
+- Join multiple data files as one.
+- Convert to DataFrame.
+- Convert to LabeledPoint.
+- Split as training/test data into our model.
 
-
+## Data smoothing
+- Filter invalid entries
+    - Strings, Nulls
+- Convert string(double) to double
+- Remove duplicate rows
+- Normalize
+- ElementwiseProduct
