@@ -1,6 +1,8 @@
 # DataBig
 
-## Running 
+## Installation and Running 
+## Model 
+- 
 ## Noises
 - Flip the labels
     - The label of 1 is changed to label of 0.
@@ -9,5 +11,7 @@
 - Duplicate rows: 
     - Two rows with exact same values
 - Missing entries:
-    - Some of the entries values are missing and assigned to value 'Null'
+    - Some of the entry values are missing and assigned to value 'Null'
+- Invalid entries:
+    - Some of the entry values are invalid and they are assigned to 'infinity' or some alphabets.
 
