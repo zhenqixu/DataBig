@@ -1,17 +1,13 @@
 # DataBig
 
-Class Project Outline
-• Use synthetic data sets to explore spark capabilities and limitations
-• Two components
-• Spark application that processes a data set to find hidden ‘insight’
-• A python or scala application that creates a data set with a hidden insight
-• Mechanisms to ‘hide’ an insight
-• Noise in the data, e.g. from measurement errors
-• Irrelevant information mixed with revelant information
-• Encoding, simple examples
-• graph expressed as a series of individual transactions between bank customers
-• Statistical distribution in text records
-• Problem design requires using Spark facilities to produce solution
-• ETL processing, noise reduction or filtering, non-linear relationships, ...
-• Creativity in creating ‘obstacles’ and finding/combining Spark functionality to overcome them is evaluation criterion!
+## Running 
+## Noises
+- Flip the labels
+    - The label of 1 is changed to label of 0.
+- Assign some of the entry value of string type
+    - 3.14159 becomes "3.14159"
+- Duplicate rows: 
+    - Two rows with exact same values
+- Missing entries:
+    - Some of the entries values are missing and assigned to value 'Null'
 
