@@ -26,14 +26,21 @@
 ## Data Process
 - Import data files as JSON format.
 - Join multiple data files as one.
-- Convert to DataFrame.
-- Convert to LabeledPoint.
-- Split as training/test data into our model.
+- Remove the redundant data
+
+- Convert Dataframe to RDD, and convert the entry to double type
+    - Remove invaild entry  
+        - Convert all the entries to string type
+        - Filter non-numeric entries and convert the rest to Double type
+        - Filter rows with invalid size
+
+- Convert to LabeledPoint
+- Scale and Normalize the Dataset
+- Split as training/test data into our model. 80% vs. 20%
+- Get results
 
 ## Data smoothing
-- Filter invalid entries
-    - Strings, Nulls
-- Convert string(double) to double
-- Remove duplicate rows
-- Normalize
-- ElementwiseProduct
+- Replace null values with AVG of that column
+- Scale DataSet
+- Normalize DataSet
+- Elementwise Product
