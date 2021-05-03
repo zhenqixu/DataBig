@@ -28,29 +28,29 @@ val dataFrame2 = sqlCtx.jsonFile("DataBig/data2.json")
 
 val dataFrame = dataFrame0.union(dataFrame1).union(dataFrame2)
 
-//3. Convert Dataframe to RDD, and convert the entry to double type
+//1. Convert Dataframe to RDD, and convert the entry to double type
 val size = dataFrame.columns.size
-  //3.1 Convert all the entries to string type.
+  //1.1 Convert all the entries to string type.
 val dataRDDString = dataFrame.rdd.map(_.mkString(" "))
-  //3.2 Filte non-numeric entries and convert the rest to Double type.
+  //1.2 Filte non-numeric entries and convert the rest to Double type.
 val dataRDDDouble = dataRDDString.map(line=>line.split(" ").filter(str=>str.exists(_.isLetter)^true).map(_.toDouble))
-  //3.3 Filte rows with invalid size.
+  //1.3 Filte rows with invalid size.
 val datafiltered = dataRDDDouble.filter(s=>s.length==size)
 //RDD.map(_.mkString(" ")).collect().foreach(println)
 
-//4. Create label for dataset
+//2. Create label for dataset
 val dataLabeledPoint = datafiltered.map(s=>LabeledPoint(s(4), Vectors.dense(s(0),s(1),s(2),s(3))))
 dataLabeledPoint.take(3).foreach(println)
 
-//7. Split data into training (80%) and test (20%).
+//3. Split data into training (80%) and test (20%).
 val splits = dataLabeledPoint.randomSplit(Array(0.8, 0.2), seed = 11L)
 val training = splits(0).cache()
 val test = splits(1)
 
-//8. Run training algorithm to build the model
+//4. Run training algorithm to build the model
 val model = new LogisticRegressionWithLBFGS().setNumClasses(2).run(training)
 
-//9. Compute raw scores on the test set.
+//5. Compute raw scores on the test set.
 val predictionAndLabels = test.map { case LabeledPoint(label, features) =>
   val prediction = model.predict(features)
   (prediction, label)
