@@ -1,6 +1,20 @@
 # DataBig
 A BigData Class project created by Xiaochen Zong, Yiwei Chen, Zhenqi Xu.
 ## Installation and Running 
+- How to generate data and run analysis:
+    - Generate Data, there should be 3 json files generated.
+        ```
+        python generateJSON.py
+        ```
+    - Move data to HDFS, make sure you already have DataBig dir in HDFS.
+        ```
+        hdfs dfs -put data*.json DataBig
+        ```
+    - Enter scala, run the scala file.
+        ```
+        spark-shell --master yarn --deploy-mode client
+        :load DataBig/Regression.scala
+        ```
 - Explanation of Files:
     - generateJSON.py is a python file that generate json dataSet.
         You can also generate clean data by call json.dump(data, outfile) at the end of this file.
@@ -10,19 +24,6 @@ A BigData Class project created by Xiaochen Zong, Yiwei Chen, Zhenqi Xu.
 
 - Recommended way to check our work:
     - 1. Use already generated dataSet or generate by your self.
-        Generate Data, there should be 3 json files generated.
-        ```
-        python generateJSON.py
-        ```
-        Move data to HDFS, make sure you already have DataBig dir in HDFS.
-        ```
-        hdfs dfs -put data*.json DataBig
-        ```
-        Enter scala, run the scala file.
-        ```
-        spark-shell --master yarn --deploy-mode client
-        :load DataBig/Regression.scala
-        ```
     - 2. Run the Regression_Raw.scala to check the original accuracy.
     - 3. Run the Regression.scala to check the improved accuracy.
     - 4. Compare the result.
