@@ -1,7 +1,7 @@
 #import numpy as np
 import random
-from mpl_toolkits import mplot3d
-import matplotlib.pyplot as plt
+#from mpl_toolkits import mplot3d
+#import matplotlib.pyplot as plt
 import sys
 import json
 
@@ -12,14 +12,15 @@ D=3 + 1 # empty dimension
 label1_num = random.randrange(100, 700)
 label2_num = N - label1_num
 
-
+'''
 fig = plt.figure()
 ax = plt.axes(projection='3d')
+'''
 
 
 def generate_data(size, min_, max_):
     data = []
-    global ax
+    #global ax
 
     noise = True
     for i in range(size):
@@ -29,7 +30,6 @@ def generate_data(size, min_, max_):
         v4 = 0
         label = 0
         color = 'red'
-
 
         if v1 > (v2*v2 + v3*v3)/5-6:
             label = 1
@@ -49,7 +49,7 @@ def generate_data(size, min_, max_):
             'account3': v3,
             'account4': v4
         })
-        ax.scatter(v1, v2, v3, c=color, s = 1)
+        #ax.scatter(v1, v2, v3, c=color, s = 1)
     return data
 
 def change_entry(v):
@@ -112,7 +112,7 @@ def add_noise(data):
 
 
 
-plt.show()
+#plt.show()
 
 for i in range(3):
     file_name = "data" + str(i) + ".json"
