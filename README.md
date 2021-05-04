@@ -1,5 +1,5 @@
 # DataBig
-Xiaochen Zong, Yiwei Chen, Zhenqi Xu.
+A BigData Class project created by Xiaochen Zong, Yiwei Chen, Zhenqi Xu.
 ## Installation and Running 
 - Explanation of Files:
     - generateJSON.py is a python file that generate json dataSet.
