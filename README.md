@@ -8,7 +8,7 @@ A BigData Class project created by Xiaochen Zong, Yiwei Chen, Zhenqi Xu.
     - Regression_Raw.scala is scala file that does not make any data cleaning, you can find the orignal accuracy of dataSet.
     - Regression.scala is scala file that include all the process ways mentioned in presentation.
 
-- Recommand way to check our work:
+- Recommended way to check our work:
     - 1. Use already generated dataSet or generate by your self.
     - 2. Run the Regression_Raw.scala to check the original accuracy.
     - 3. Run the Regression.scala to check the improved accuracy.
