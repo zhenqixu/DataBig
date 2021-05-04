@@ -2,6 +2,10 @@
 A BigData Class project created by Xiaochen Zong, Yiwei Chen, Zhenqi Xu.
 ## Installation and Running 
 - How to generate data and run analysis:
+    - cd to our dir: (please contact via yc3289@nyu.edu if the following steps is not working)
+        ```
+        cd /home/yc3289/DataBig
+        ```
     - Generate Data, there should be 3 json files generated.
         ```
         python generateJSON.py
